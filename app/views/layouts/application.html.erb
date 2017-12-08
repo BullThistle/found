@@ -9,6 +9,7 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
+
   </head>
 
   <body>
@@ -16,26 +17,53 @@
       <div class="top-bar-left">
         <ul class="dropdown menu" data-dropdown-menu>
           <li class="menu-text">Site Title</li>
-          <li>
-            <a href="#">One</a>
-            <ul class="menu vertical">
-              <li><a href="#">One</a></li>
-              <li><a href="#">Two</a></li>
-              <li><a href="#">Three</a></li>
-            </ul>
-          </li>
-          <li><a href="#">Two</a></li>
-          <li><a href="#">Three</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
+
         <ul class="menu">
-          <li><input type="search" placeholder="Search"></li>
-          <li><button type="button" class="button">Search</button></li>
+          <% if user_signed_in? %>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><%= link_to "Log Out", destroy_user_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "Sign Up", new_user_registration_path %></li>
+            <li><%= link_to "Log In", new_user_session_path %></li>
+          <% end %>
+          <% if current_user.try(:admin?) %>
+            <li><%= link_to "Admin", "/admin"%></li>
+          <% end %>
         </ul>
       </div>
     </div>
+    <div data-alert class="alert-box">
+      <p>hi</p>
+      <a href="#" class="close">&times;</a>
+    </div>
+    <p class="alert-box"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
-
+    <% if user_signed_in? %>
+    <footer class="responsive-blog-footer">
+      <div class="parent">
+        <div class="middle-content">
+          <div class="row">
+            <div class="small-2 large-4 columns">
+              <h4 class="mailing-list">Join my mailing list</h4>
+              <input type="text" placeholder="Email Address">
+              <a class="button expanded subscribe-button" href="#">Subscribe Now</a>
+            </div>
+          </div>
+          <div class="row columns flex-container align-justify">
+             <p> © 2017 GNU GPL v2. Rafael Furry</p>
+            <div class="up-arrow">
+              <a href="#top"><i class="fa fa-chevron-circle-up" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+        </div>
+    </footer>
+    <% end %>
+  </div>
   </body>
 </html>
