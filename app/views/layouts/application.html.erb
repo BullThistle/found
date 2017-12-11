@@ -36,12 +36,22 @@
         </ul>
       </div>
     </div>
-    <div data-alert class="alert-box">
-      <p>hi</p>
-      <a href="#" class="close">&times;</a>
-    </div>
-    <p class="alert-box"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if flash[:notice] %>
+      <div class="success callout small" data-closable="slide-out-right">
+        <p><%= notice %></p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div class="alert callout small" data-closable="slide-out-right">
+        <p><%= alert %></p>
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% end %>
     <%= yield %>
     <% if user_signed_in? %>
     <footer class="responsive-blog-footer">
